@@ -4,7 +4,7 @@ const connection = require('./connection');
 
 const getAll = async () => {
   console.log('afonso no model');
-  const [[result]] = await connection.execute(
+  const [result] = await connection.execute(
     'SELECT * FROM StoreManager.products',
   );
   console.log('afonso passou do connection');
