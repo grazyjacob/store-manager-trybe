@@ -78,9 +78,14 @@
     "method": "GET",
     "sortNum": 0,
     "created": "2022-11-16T18:21:24.690Z",
-    "modified": "2022-11-16T18:21:24.789Z",
+    "modified": "2022-11-16T19:08:20.086Z",
     "headers": [],
     "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"Arroz\"\n}",
+      "form": []
+    },
     "tests": []
   },
   {
@@ -95,6 +100,25 @@
     "modified": "2022-11-16T18:21:32.215Z",
     "headers": [],
     "params": [],
+    "tests": []
+  },
+  {
+    "_id": "831a1818-afb8-47f6-b29a-82295002885c",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:3000/products",
+    "url": "http://localhost:3000/products",
+    "method": "POST",
+    "sortNum": 0,
+    "created": "2022-11-16T18:39:24.626Z",
+    "modified": "2022-11-16T19:35:35.855Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"name\": \"Arroz\"\n}",
+      "form": []
+    },
     "tests": []
   }
 ]
