@@ -11,7 +11,7 @@
     "test": "jest --config ./jest.config.js --runInBand --detectOpenHandles",
     "test:mocha": "nyc --all --include src/models --include src/services --include src/controllers mocha tests/unit/**/*.js --exit",
     "start": "node src/server.js",
-    "debug": "nodemon --ignore coverage --inspect=0.0.0.0:9229 src/server.js",
+    "debug": "nodemon --ignore coverage --ignore thunderActivity.json --inspect=0.0.0.0:9229 src/server.js",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json . --ext .js, .jsx",
     "migration": "node -e \"require('./__tests__/_utils').runMigration()\"",
     "seed": "node -e \"require('./__tests__/_utils').runSeed()\""
@@ -35,7 +35,8 @@
     "express-async-errors": "3.1.1",
     "joi": "17.6.0",
     "mysql2": "2.3.0",
-    "shelljs": "0.8.5"
+    "shelljs": "0.8.5",
+    "snakeize": "^0.1.0"
   },
   "devDependencies": {
     "chai": "4.3.4",
