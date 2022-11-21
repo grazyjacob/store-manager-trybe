@@ -35,9 +35,19 @@ const [result] = await connection.execute(
   return camelize(result);
 };
 
+const deleteProduct = async (id) => {
+  const [result] = await connection.execute(
+  `DELETE FROM StoreManager.products
+   WHERE id = ?`,
+    [id],
+  );
+  return camelize(result);
+};
+
 module.exports = {
   getAll,
   findById,
   createNewProduct,
   editName,
+  deleteProduct,
 };

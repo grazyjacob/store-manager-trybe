@@ -5,10 +5,10 @@
     "containerId": "",
     "name": "http://localhost:3000/sales",
     "url": "http://localhost:3000/products/1",
-    "method": "GET",
+    "method": "DELETE",
     "sortNum": 0,
     "created": "2022-11-16T20:47:05.373Z",
-    "modified": "2022-11-21T19:33:17.809Z",
+    "modified": "2022-11-21T20:40:53.169Z",
     "headers": [],
     "params": [],
     "body": {

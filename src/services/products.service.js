@@ -26,9 +26,17 @@ const uptadeAProduct = async (name, id) => {
   return { type: null, message: result }; 
 };
 
+const deleteProduct = async (id) => {
+  const validationId = await validateId(id);
+  if (validationId.type) return { type: 404, message: 'Product not found' };
+  const result = await productsModel.deleteProduct(id);
+  return { type: null, message: result };
+};
+
 module.exports = {
   getAllProducts,
   getOneProduct,
   createProduct,
   uptadeAProduct,
+  deleteProduct,
 };
