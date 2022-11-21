@@ -4,7 +4,7 @@ const connection = require('./connection');
 
 const createNewSale = async () => {
   const [{ insertId }] = await connection.execute(
-    'INSERT INTO StoreManager.sales(date) VALUES(default)',
+    'INSERT INTO StoreManager.sales (date) VALUE (default)',
   );
   return insertId;
 };
@@ -16,8 +16,7 @@ const getAllSales = async () => {
   return camelize(result);
 };
 
-const insert = async (sale) => {
-  console.log('entrou no insert', sale);
+const insert = async (newSaleId, sale) => {
   const columns = Object.keys(snakeize(sale))
     .map((key) => `${key}`)
     .join(', ');
@@ -26,17 +25,25 @@ const insert = async (sale) => {
     .map((_key) => '?')
     .join(', ');
 
-  const [{ saleId }] = await connection.execute(
-    `INSERT INTO StoreManager.sales_products (${columns})
-    VALUE (${placeholders})`,
-    [...Object.values(sale)],
+  const [{ insertId }] = await connection.execute(
+    `INSERT INTO StoreManager.sales_products (sale_id, ${columns})
+    VALUE (?, ${placeholders})`,
+    [newSaleId, ...Object.values(sale)],
   );
-  console.log('saiu do insert');
-  return saleId;
+  return insertId;
+};
+
+const findById = async (id) => {
+  const [[result]] = await connection.execute(
+    'SELECT * FROM StoreManager.products WHERE id = ?',
+    [id],
+  );
+  return camelize(result);
 };
 
 module.exports = {
   createNewSale,
   getAllSales,
   insert,
+  findById,
 };

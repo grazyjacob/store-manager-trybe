@@ -39,16 +39,20 @@ const validateQuantity = async (arraySales) => {
 };
 
 const createSale = async (arraySales) => {
-  const newSaleId = await salesModel.createNewSale();
   const validateId = await validateProductId(arraySales);
   const validateQuantityProducts = await validateQuantity(arraySales);
+  
   if (validateId.type) {
     return { type: validateId.type, message: validateId.message };
   }
   if (validateQuantityProducts.type) {
     return { type: validateQuantityProducts.type, message: validateQuantityProducts.message };
   }
-  return { type: null, message: arraySales, id: newSaleId };
+  const newSaleId = await salesModel.createNewSale();
+  const response = arraySales
+    .map(async (sale) => salesModel.insert(newSaleId, sale));
+  await Promise.all(response);
+  return { type: null, message: { id: newSaleId, itemsSold: arraySales } };
 };
 
 module.exports = {
