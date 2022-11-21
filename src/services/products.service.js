@@ -22,7 +22,7 @@ const createProduct = async (name) => {
 const uptadeAProduct = async (name, id) => {
   const validationId = await validateId(id);
   if (validationId.type) return { type: 404, message: 'Product not found' };
-  const result = await productsModel.uptadeProduct(name, id);
+  const result = await productsModel.editProduct(name, id);
   return { type: null, message: result }; 
 };
 

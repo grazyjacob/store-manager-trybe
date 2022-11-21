@@ -25,9 +25,9 @@ const createNewProduct = async (name) => {
   return camelize(result);
 };
 
-const editName = async (name, id) => {
-const [result] = await connection.execute(
-  `UPDATE StoreManager.products
+const editProduct = async (name, id) => {
+  const [result] = await connection.execute(
+    `UPDATE StoreManager.products
   SET name = ?
   WHERE id = ?`,
     [name, id],
@@ -37,7 +37,7 @@ const [result] = await connection.execute(
 
 const deleteProduct = async (id) => {
   const [result] = await connection.execute(
-  `DELETE FROM StoreManager.products
+    `DELETE FROM StoreManager.products
    WHERE id = ?`,
     [id],
   );
@@ -48,6 +48,6 @@ module.exports = {
   getAll,
   findById,
   createNewProduct,
-  editName,
+  editProduct,
   deleteProduct,
 };
