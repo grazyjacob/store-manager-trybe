@@ -8,7 +8,7 @@ const salesService = require('../../../src/services/sales.service');
 const res = require('express/lib/response');
 
 const newSale =[ {
-  "productId": 5,
+  "productId": 7,
   "quantity": 5,
   "saleId": 1,
 }]
