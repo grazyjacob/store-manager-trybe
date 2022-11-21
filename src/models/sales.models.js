@@ -11,7 +11,10 @@ const createNewSale = async () => {
 
 const getAllSales = async () => {
   const [result] = await connection.execute(
-    'SELECT * FROM StoreManager.sales_products',
+    `SELECT SP.product_id, SP.quantity,SP.sale_id, S.date
+    FROM StoreManager.sales_products AS SP
+    INNER JOIN StoreManager.sales AS S
+    ON SP.sale_id = S.id`,
   );
   return camelize(result);
 };
@@ -41,9 +44,22 @@ const findById = async (id) => {
   return camelize(result);
 };
 
+const findSaleById = async (id) => {
+  const [result] = await connection.execute(
+    `SELECT SP.product_id, SP.quantity, S.date
+    FROM StoreManager.sales_products AS SP
+    INNER JOIN StoreManager.sales AS S
+    ON SP.sale_id = S.id
+    WHERE SP.sale_id = ?`,
+    [id],
+  );
+  return camelize(result);
+};
+
 module.exports = {
   createNewSale,
   getAllSales,
+  findSaleById,
   insert,
   findById,
 };
