@@ -3,7 +3,6 @@ const productsModel = require('../models/products.model');
 const { validateId } = require('./validations/validate.id');
 
 const getAllProducts = async () => {
-  // console.log('products service arquivo');
   const resultGet = await productsModel.getAll();
   return { type: null, message: resultGet };
 };
@@ -20,8 +19,16 @@ const createProduct = async (name) => {
   return { type: null, message: result };
 };
 
+const uptadeAProduct = async (name, id) => {
+  const validationId = await validateId(id);
+  if (validationId.type) return { type: 404, message: 'Product not found' };
+  const result = await productsModel.editName(name, id);
+  return { type: null, message: result }; 
+};
+
 module.exports = {
   getAllProducts,
   getOneProduct,
   createProduct,
+  uptadeAProduct,
 };

@@ -24,8 +24,19 @@ const createNewProduct = async (name) => {
   return camelize(result);
 };
 
+const editName = async (name, id) => {
+const [result] = await connection.execute(
+  `UPDATE StoreManager.products
+  SET name = ?
+  WHERE id = ?`,
+    [name, id],
+  );
+  return camelize(result);
+};
+
 module.exports = {
   getAll,
   findById,
   createNewProduct,
+  editName,
 };
