@@ -5,6 +5,13 @@ const salesModel = require('../../../src/models/sales.models');
 const connection = require('../../../src/models/connection');
 const mockSales = require('../models/mocks/db.mock.sales');
 const salesService = require('../../../src/services/sales.service');
+const res = require('express/lib/response');
+
+const newSale =[ {
+  "productId": 5,
+  "quantity": 5,
+  "saleId": 1,
+}]
 
 describe('Testes de unidade da camada service de sales', function () {
   afterEach(sinon.restore);
@@ -14,12 +21,23 @@ describe('Testes de unidade da camada service de sales', function () {
     const result = await salesService.getSales();
     expect(result.message).to.deep.equal(mockSales);
   });
-  it('Valida a busca pelo produto com o id incorreto', async function () {
-    sinon.stub(connection, 'execute').resolves([[mockSales[0]]]);
+  it('Valida a busca pela venda com o id incorreto', async function () {
+    sinon.stub(salesModel, 'findSaleById').resolves([]);
 
-    // const result = await validationId.validateId(5);
-    const res = await productsService.getOneSale(5)
-    expect(result.message).to.be.deep.equal('Product not found');
-    expect(res.type).to.be.equal(404);
+    const result = await salesService.getOneSale(4)
+    expect(result.message).to.be.deep.equal('Sale not found');
+    expect(result.type).to.be.equal(404);
+  });
+  it('Valida a busca pela venda com o id correto', async function () {
+    sinon.stub(salesModel, 'findSaleById').resolves(mockSales[0]);
+
+    const result = await salesService.getOneSale(1)
+    expect(result.message).to.be.deep.equal(mockSales[0]);
+  });
+  it('Valida se não é possível criar uma venda com um produto inesistente', async function () {
+    sinon.stub(salesModel, 'insert').resolves(newSale)
+
+    const result = await salesService.createSale(newSale)
+    expect(result.message).to.be.deep.equal('Product not found')
   });
 });
