@@ -74,9 +74,38 @@ const deleteSale = async (id) => {
   return { type: null, message: resultDelete };
 };
 
+const validateSale = async (id) => {
+  const result = await salesModel.findSaleById(id);
+  if (result.length === 0) return { type: 404, message: 'Sale not found' };
+  return { type: null, message: 'Ok' };
+};
+
+// AQUI PODE SER QUE SEJA OU NÃO UM ARRAY. ENTÃO ANTES DE QUALQUER VALIDAÇÃO EU PRECISO
+// VALIDAR SE É UM ARRAY
+
+// Primeiro vamos ter que validar se o update recebido é um array ou um objeto
+
+const updateSale = async (id, arrayUpdateSales) => {
+  const validateSaleId = await validateSale(id);
+  if (validateSaleId.type) return { type: validateSaleId.type, message: validateSaleId.message };
+  const validateId = await validateProductId(arrayUpdateSales);
+  if (validateId.type) {
+    return { type: validateId.type, message: validateId.message };
+  }
+  const validateQuantityProducts = await validateQuantity(arrayUpdateSales);
+  if (validateQuantityProducts.type) {
+    return { type: validateQuantityProducts.type, message: validateQuantityProducts.message };
+  }
+  const response = arrayUpdateSales
+    .map(async (sale) => salesModel.updateASale(id, sale));
+  await Promise.all(response);
+  return { type: null, message: { saleId: id, itemsUpdated: arrayUpdateSales } };
+};
+
 module.exports = {
   createSale,
   getSales,
   getOneSale,
   deleteSale,
+  updateSale,
 };

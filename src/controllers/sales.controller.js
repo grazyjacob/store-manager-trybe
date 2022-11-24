@@ -9,7 +9,7 @@ const postSale = async (req, res) => {
 
 const getSales = async (_req, res) => {
   const { type, message } = await salesService.getSales();
-  if (type) return res.status(type).json({ message });
+  if (type) return res.status(type).json({ type, message });
   return res.status(200).json(message);
 };
 
@@ -27,8 +27,17 @@ const deleteSale = async (req, res) => {
   return res.status(204).json({});
 };
 
+const putSales = async (req, res) => {
+  const arrayUpdateSales = req.body;
+  const { id } = req.params;
+  const { type, message } = await salesService.updateSale(id, arrayUpdateSales);
+  if (type) return res.status(type).json({ message });
+  return res.status(200).json(message);
+};
+
 module.exports = {
   postSale,
+  putSales,
   getSales,
   getSaleById,
   deleteSale,
