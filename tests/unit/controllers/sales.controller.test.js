@@ -95,15 +95,16 @@ describe('Testes de unidade da camada controller de sales', function () {
     const res = {}
     const req = {
       params: { id: 1 },
-      body: { updateSale },
+      body: { },
     };
+
     res.status = sinon.stub().returns(res);
     res.json = sinon.stub().returns();
     sinon
       .stub(salesService, 'updateSale')
       .resolves({ type: null, message: { saleId: 1, itemsUpdated: updateSale } })
     
-    await salesController.deleteSale(req, res);
+    await salesController.putSales(req, res);
 
     expect(res.status).to.have.been.calledWith(200)
   });
