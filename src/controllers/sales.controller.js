@@ -20,6 +20,7 @@ const getSaleById = async (req, res) => {
   return res.status(200).json(message);
 };
 
+// deleteSale nao esta coberta 24-27
 const deleteSale = async (req, res) => {
   const { id } = req.params;
   const { type, message } = await salesService.deleteSale(id);
@@ -27,6 +28,7 @@ const deleteSale = async (req, res) => {
   return res.status(204).json({});
 };
 
+// putSales não está coberta 31-35
 const putSales = async (req, res) => {
   const arrayUpdateSales = req.body;
   const { id } = req.params;

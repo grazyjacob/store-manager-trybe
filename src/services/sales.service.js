@@ -80,11 +80,6 @@ const validateSale = async (id) => {
   return { type: null, message: 'Ok' };
 };
 
-// AQUI PODE SER QUE SEJA OU NÃO UM ARRAY. ENTÃO ANTES DE QUALQUER VALIDAÇÃO EU PRECISO
-// VALIDAR SE É UM ARRAY
-
-// Primeiro vamos ter que validar se o update recebido é um array ou um objeto
-
 const updateSale = async (id, arrayUpdateSales) => {
   const validateSaleId = await validateSale(id);
   if (validateSaleId.type) return { type: validateSaleId.type, message: validateSaleId.message };

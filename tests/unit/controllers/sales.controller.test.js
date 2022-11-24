@@ -9,6 +9,7 @@ const salesController = require('../../../src/controllers/sales.controller');
 const mockSales = require('../models/mocks/db.mock.sales');
 const salesService = require('../../../src/services/sales.service');
 const connection = require('../../../src/models/connection');
+const res = require('express/lib/response');
 
 const newSale = [
   {
@@ -19,6 +20,16 @@ const newSale = [
     "productId": 2,
     "quantity": 5
   }
+]
+const updateSale = [
+    {
+      "productId": 1,
+      "quantity": 10
+    },
+    {
+      "productId": 2,
+      "quantity": 50
+    }
 ]
 
 describe('Testes de unidade da camada controller de sales', function () {
@@ -64,6 +75,37 @@ describe('Testes de unidade da camada controller de sales', function () {
 
     expect(res.status).to.have.been.calledWith(201);
     expect(res.json).to.have.been.calledWith(newSale);
+  });
+  it('Verifica se consegue excluir uma venda corretamente', async function () {
+    const res = {}
+    const req = {
+      params: { id: 1 }
+    };
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon
+      .stub(salesService, 'deleteSale')
+      .resolves({ type: null, message: {} });
+    
+    await salesController.deleteSale(req, res);
+  
+    expect(res.status).to.have.been.calledWith(204);
+  });
+  it('Verifica se consegue atualizar uma venda corretamente', async function () {
+    const res = {}
+    const req = {
+      params: { id: 1 },
+      body: { updateSale },
+    };
+    res.status = sinon.stub().returns(res);
+    res.json = sinon.stub().returns();
+    sinon
+      .stub(salesService, 'updateSale')
+      .resolves({ type: null, message: { saleId: 1, itemsUpdated: updateSale } })
+    
+    await salesController.deleteSale(req, res);
+
+    expect(res.status).to.have.been.calledWith(200)
   });
 });
 
