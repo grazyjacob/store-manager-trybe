@@ -15,25 +15,25 @@ const getOneProduct = async (id) => {
 };
 
 const createProduct = async (name) => {
-  const result = await productsModel.createNewProduct(name);
-  return { type: null, message: result };
+  const insertId = await productsModel.createNewProduct(name); // func n coberta
+  return { type: null, message: insertId };
 };
 
 const uptadeAProduct = async (name, id) => {
-  const validationId = await validateId(id);
+  const validationId = await validateId(id); 
   if (validationId.type) return { type: 404, message: 'Product not found' };
   const result = await productsModel.editProduct(name, id);
   return { type: null, message: result }; 
 };
 
 const deleteProduct = async (id) => {
-  const validationId = await validateId(id);
+  const validationId = await validateId(id); // func n coberta
   if (validationId.type) return { type: 404, message: 'Product not found' };
   const result = await productsModel.deleteProduct(id);
   return { type: null, message: result };
 };
 
-const getSearchProducts = async (q) => {
+const getSearchProducts = async (q) => { // func n coberta
   const result = await productsModel.searchProducts(q);
   return { type: null, message: result };
 };

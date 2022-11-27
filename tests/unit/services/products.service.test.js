@@ -8,7 +8,7 @@ const productsService = require('../../../src/services/products.service');
 const validationId = require('../../../src/services/validations/validate.id')
 
 newProduct = [{ id: 1, name: 'Machado do Thor Stormbreaker' }]
-
+nameProduct = 'Machado do Thor Stormbreaker'
 describe('Testes de unidade da camada service de products', function () {
   afterEach(sinon.restore);
   it('Verifica se retorna a lista completa de produtos', async function () {
@@ -34,5 +34,31 @@ describe('Testes de unidade da camada service de products', function () {
 
     expect(error.type).to.equal(null);
     expect(error.message).to.equal(newProduct);
+  });
+  it('Valida se não é possivel editar um produto, passando id errado', async function () {
+    sinon.stub(productsModel, 'editProduct').resolves(newProduct);
+
+    const id = 7;
+    const result = await productsService.uptadeAProduct(nameProduct, id)
+
+    expect(result.type).to.equal(404);
+    // expect(result.json).to.equal({ message: 'Product not found'});
+  });
+  it('Valida se é possível deletar um produto', async function () {
+    sinon.stub(productsModel, 'deleteProduct').resolves();
+
+    const id = 1;
+    const result = await productsService.deleteProduct(id);
+
+    expect(result.type).to.equal(null);
+  });
+  it('Valida se é possivel editar um produto, passando id correto', async function () {
+    sinon.stub(productsModel, 'editProduct').resolves(newProduct);
+
+    const id = 1;
+    const result = await productsService.uptadeAProduct(nameProduct, id)
+
+    expect(result.type).to.equal(null);
+    expect(result.message).to.equal(newProduct);
   });
 });

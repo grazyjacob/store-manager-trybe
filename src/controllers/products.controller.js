@@ -18,7 +18,7 @@ const postProduct = async (req, res) => {
   const { name } = req.body;
   const { type, message } = await productsService.createProduct(name);
   if (type) return res.status(type).json(message);
-  res.status(201).json({ id: message[0].insertId, name });
+  res.status(201).json({ id: message, name });
 };
 
 const putProduct = async (req, res) => {
@@ -36,14 +36,13 @@ const deleteProductForId = async (req, res) => {
   return res.status(204).json({});
 };
 
-const searchProducts = async (req, res) => {
+const searchProducts = async (req, res) => { // função não coberta
   const { q } = req.query;
   if (!q) {
     const { message } = await productsService.getAllProducts();
     return res.status(200).json(message);
   }
-  const { type, message } = await productsService.getSearchProducts(q);
-  if (type) return res.status(type).json({ message });
+  const { message } = await productsService.getSearchProducts(q);
   return res.status(200).json(message);
 };
 

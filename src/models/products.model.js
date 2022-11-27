@@ -13,16 +13,15 @@ const findById = async (id) => {
     'SELECT * FROM StoreManager.products WHERE id = ?',
     [id],
   );
-  console.log(result);
   return camelize(result);
 };
 
 const createNewProduct = async (name) => {
-  const result = await connection.execute(
+  const [{ insertId }] = await connection.execute(
     'INSERT INTO StoreManager.products (name) VALUES (?)',
     [name],
   );
-  return camelize(result);
+  return camelize(insertId);
 };
 
 const editProduct = async (name, id) => {

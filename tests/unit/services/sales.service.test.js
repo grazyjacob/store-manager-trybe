@@ -7,8 +7,18 @@ const mockSales = require('../models/mocks/db.mock.sales');
 const salesService = require('../../../src/services/sales.service');
 const res = require('express/lib/response');
 
-const newSale =[ {
+const newSale = [ {
   "productId": 7,
+  "quantity": 5,
+  "saleId": 1,
+}]
+
+const newSaleOk = [{
+  "productId": 1,
+  "quantity": 5,
+}]
+
+const newSaleNotId = [{
   "quantity": 5,
   "saleId": 1,
 }]
@@ -39,5 +49,27 @@ describe('Testes de unidade da camada service de sales', function () {
 
     const result = await salesService.createSale(newSale)
     expect(result.message).to.be.deep.equal('Product not found')
+  });
+  it('Valida a busca pelo produto com o id correto, pela função validateProductId', async function () {
+    sinon.stub(salesModel, 'findById').resolves(newSaleOk);
+
+    const result = await salesService.createSale(newSaleOk)
+
+    expect(result.type).to.equal(null);
+  });
+  it('Valida a busca pelo produto com o id incorreto, pela função validateProductId', async function () {
+    sinon.stub(salesModel, 'findById').resolves(newSaleNotId);
+
+    const result = await salesService.createSale(newSaleNotId)
+
+    expect(result.type).to.equal(400);
+  });
+  it('Valida se é possível deletar uma venda', async function () {
+    sinon.stub(salesModel, 'deleteSaleById').resolves();
+
+    const params = { id: 1 };
+    const result = await salesService.deleteSale(params.id)
+
+    expect(result.type).to.equal(null);
   });
 });

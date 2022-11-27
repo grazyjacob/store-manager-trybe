@@ -29,11 +29,11 @@ const validateProductId = async (arraySales) => {
 const validateQuantity = async (arraySales) => {
   const validateQuantityIs = await arraySales.map((sale) => Number(sale.quantity) <= 0);
   if (validateQuantityIs.includes(true)) {
-    return { type: 422, message: '"quantity" must be greater than or equal to 1' };
+    return { type: 422, message: '"quantity" must be greater than or equal to 1' }; // linha n coberta
   }
   const quantityIsRequired = arraySales.map((sale) => sale.quantity);
   if (quantityIsRequired.includes(undefined)) {
-    return { type: 400, message: '"quantity" is required' };
+    return { type: 400, message: '"quantity" is required' }; // linha n coberta
   }
   return { message: 'OK' };
 };
@@ -45,14 +45,14 @@ const createSale = async (arraySales) => {
   if (validateId.type) {
     return { type: validateId.type, message: validateId.message };
   }
-  if (validateQuantityProducts.type) {
+  if (validateQuantityProducts.type) { // daqui
     return { type: validateQuantityProducts.type, message: validateQuantityProducts.message };
   }
   const newSaleId = await salesModel.createNewSale();
   const response = arraySales
     .map(async (sale) => salesModel.insert(newSaleId, sale));
   await Promise.all(response);
-  return { type: null, message: { id: newSaleId, itemsSold: arraySales } };
+  return { type: null, message: { id: newSaleId, itemsSold: arraySales } }; // até aqui n coberto
 };
 
 const getSales = async () => {
@@ -67,20 +67,20 @@ const getOneSale = async (id) => {
   return { type: null, message: result };
 };
 
-const deleteSale = async (id) => {
+const deleteSale = async (id) => { // func n coberta
   const result = await salesModel.findSaleById(id);
   if (result.length === 0) return { type: 404, message: 'Sale not found' };
   const resultDelete = await salesModel.deleteSaleById(id);
   return { type: null, message: resultDelete };
 };
 
-const validateSale = async (id) => {
+const validateSale = async (id) => { // func n coberta
   const result = await salesModel.findSaleById(id);
   if (result.length === 0) return { type: 404, message: 'Sale not found' };
   return { type: null, message: 'Ok' };
 };
 
-const updateSale = async (id, arrayUpdateSales) => {
+const updateSale = async (id, arrayUpdateSales) => { // func n coberta
   const validateSaleId = await validateSale(id);
   if (validateSaleId.type) return { type: validateSaleId.type, message: validateSaleId.message };
   const validateId = await validateProductId(arrayUpdateSales);
