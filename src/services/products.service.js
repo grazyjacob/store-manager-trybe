@@ -33,10 +33,16 @@ const deleteProduct = async (id) => {
   return { type: null, message: result };
 };
 
+const getSearchProducts = async (q) => {
+  const result = await productsModel.searchProducts(q);
+  return { type: null, message: result };
+};
+
 module.exports = {
   getAllProducts,
   getOneProduct,
   createProduct,
   uptadeAProduct,
   deleteProduct,
+  getSearchProducts,
 };

@@ -33,7 +33,18 @@ const deleteProductForId = async (req, res) => {
   const { id } = req.params;
   const { type, message } = await productsService.deleteProduct(id);
   if (type) return res.status(type).json({ message });
-  res.status(204).json({});
+  return res.status(204).json({});
+};
+
+const searchProducts = async (req, res) => {
+  const { q } = req.query;
+  if (!q) {
+    const { message } = await productsService.getAllProducts();
+    return res.status(200).json(message);
+  }
+  const { type, message } = await productsService.getSearchProducts(q);
+  if (type) return res.status(type).json({ message });
+  return res.status(200).json(message);
 };
 
 module.exports = {
@@ -42,4 +53,5 @@ module.exports = {
   postProduct,
   putProduct,
   deleteProductForId,
+  searchProducts,
 };
