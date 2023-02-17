@@ -5,7 +5,6 @@ const salesModel = require('../../../src/models/sales.models');
 const connection = require('../../../src/models/connection');
 const mockSales = require('../models/mocks/db.mock.sales');
 const salesService = require('../../../src/services/sales.service');
-const res = require('express/lib/response');
 
 const newSale = [ {
   "productId": 7,

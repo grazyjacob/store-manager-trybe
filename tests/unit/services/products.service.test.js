@@ -42,7 +42,7 @@ describe('Testes de unidade da camada service de products', function () {
     const result = await productsService.uptadeAProduct(nameProduct, id)
 
     expect(result.type).to.equal(404);
-    // expect(result.json).to.equal({ message: 'Product not found'});
+    expect(result.message).to.equal('Product not found');
   });
   it('Valida se é possível deletar um produto', async function () {
     sinon.stub(productsModel, 'deleteProduct').resolves();
